@@ -2,7 +2,12 @@
 
 #include "tetrimino.h"
 #include "well.h"
-
+void myswap(int& a, int& b)
+{
+    int temp = a;
+    a = b;
+    b = temp;
+}
 class I_tetrimino : public tetrimino 
 {
 private:
@@ -118,7 +123,39 @@ public:
             for(int i = 0; i < 4; i++)
                 well[rows[i]][cols[i]] = 1;
             cout << "Well Updated";
-            PrintArray(well);
         }
+    }
+    void Rotate()
+    {
+        bool CanRotate = true;
+        if(numrotation % 2 == 0)
+        {
+            for(int i = 1; i < 4; i++)//checking if it can rotate
+            {
+                if(well[rows[0]][cols[0] + i] != 0)
+                    CanRotate = false;
+            }
+            if(CanRotate == true)
+            {    
+                for(int i = 1; i < 4; i++)
+                {
+                    rows[i] = rows[0];
+                    cols[i] = cols[0] + i;
+                }
+                numrotation++;
+            }
+        }
+        else if(numrotation % 2 == 1)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                rows[i] += i;
+                cols[i] = cols[0];
+            }
+            numrotation++;
+        }
+        ResetGrid(well);
+        for(int i = 0; i < 4; i++)
+            well[rows[i]][cols[i]] = 1; 
     }
 };

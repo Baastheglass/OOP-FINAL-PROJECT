@@ -44,7 +44,8 @@ public:
                 t->Right();
             else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Down)
                 t->Down();
-            
+            else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Up)
+                t->Rotate();
         }
     }
     void ClearDisplay()

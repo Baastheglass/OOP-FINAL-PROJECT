@@ -62,6 +62,16 @@ public:
     {
         return grid[index];
     }
+    void operator = (Well& RHS)
+    {
+        for(int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j < 20; j++)
+            {
+                grid[i][j] = RHS.grid[i][j];
+            }
+        }
+    }
     sf::RectangleShape getSquare(int index)
     {
         return square[index];
