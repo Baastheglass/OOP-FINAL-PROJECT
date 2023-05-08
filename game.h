@@ -10,7 +10,7 @@ class Game
 private:    
     sf::RenderWindow* window;
     sf::Event event;
-    Well well;
+    Well* well;
     tetrimino* t;
     int tetriminochooser;
 public:
@@ -19,10 +19,11 @@ public:
         window = new sf::RenderWindow(sf::VideoMode(1920,1200), "Tetris");
         // tetriminochooser = rand() % 7 + 1;
         tetriminochooser = 1;
+        well = new Well();
         if(tetriminochooser == 1)
             t = new I_tetrimino(well);
     }
-    Well& getWell()
+    Well* getWell()
     {
         return well;
     }
@@ -54,7 +55,7 @@ public:
     }
     void DrawWell()
     {
-        well.DrawWell(window);
+        well->DrawWell(window);
     }
     void RenderDisplay()
     {
