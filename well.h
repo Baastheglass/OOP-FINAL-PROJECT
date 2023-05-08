@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
+using namespace std;
+//#include "game.h"
 class Well
 { 
 friend class I_tetrimino;

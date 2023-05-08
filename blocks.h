@@ -20,7 +20,6 @@ public:
         {
             rows[i] = i;
             cols[i] = 4;
-            lastrow++;
         }
         for(int i = 0; i < 4; i++)
         {
@@ -29,103 +28,105 @@ public:
     }
     void DropOne(Well& well)
     {
-        if(lastrow <= 19)
+        if(rows[3] < 19)
         {
             for(int i = 0; i < 4; i++)
                 ++rows[i];
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
-                well[rows[i]][cols[i]] = 1;
-            }
-            lastrow++;    
+                well.grid[rows[i]][cols[i]] = 1;
+            }    
         }
     }
-    bool CanGoLeft()
+    int getLastRow()
+    {
+        return rows[3];
+    }
+    bool CanGoLeft(Well& well)
     {
         for(int i = 0; i < 4; i++)
         {
-            if(!(well[rows[i]][cols[i] - 1] == 0 && (cols[i] - 1) >= 0))
+            if(!(well[rows[i]][cols[i] - 1] == 0 && (cols[i] - 1) >= 0 && rows[3] < 19))
                 return false;
         }
         return true;
     }
-    void Left()
+    void Left(Well& well)
     {
-        if(CanGoLeft())
+        if(CanGoLeft(well))
         {    
-            // cout << "Can go left" << endl;
+            
             for(int i = 0; i < 4; i++)
             {
                 --cols[i];
             }
-            // cout << "Columns Decreased";
+            
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
                 well[rows[i]][cols[i]] = 1;
             }
-            // cout << "GoneLeft" << endl;
-            // PrintArray(well);
-            // cout << endl << "Rows: ";
-            // PrintRows();
-            // cout << "Cols: ";
-            // PrintCols();
         }
     }
-    bool CanGoRight()
+    bool CanGoRight(Well& well)
     {
         for(int i = 0; i < 4; i++)
-            if(!(well[rows[i]][cols[i] + 1] == 0 && (cols[i] + 1) <= 9))
+            if(!(well[rows[i]][cols[i] + 1] == 0 && (cols[i] + 1) <= 9 && rows[3] < 19))
                 return false;
+        cout << "CanGoRight" << rows[3];
         return true;
     }
-    void Right()
+    void Right(Well& well)
     {
-        if(CanGoRight())
+        if(CanGoRight(well))
         {
-            // cout << "Can go Right" << endl;
             for(int i = 0; i < 4; i++)
             {
                 ++cols[i];
             }
-            // cout << "Columns Increased";
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
                 well[rows[i]][cols[i]] = 1;
             }
-            // cout << "GoneRight" << endl;
-            // PrintArray(well);
-            // cout << endl << "Rows: ";
-            // PrintRows();
-            // cout << "Cols: ";
-            // PrintCols();
         }
     }
-    bool CanGoDown()
+    bool CanGoDown(Well& well)
     {
-        for(int i = 0; i < 4; i++)
-            if(!(well[rows[i] + 1][cols[i]] == 0 && (rows[i] + 1) <= 19))
-                return false;
-        return true;
-    }
-    void Down()
-    {
-        if(CanGoDown())
+        if(numrotation & 2 == 0 || numrotation == 0)
         {
-            cout << "CanGoDown()";
+            if(well[rows[3] + 1][cols[3]] == 0 && rows[3] + 1 <= 19)
+                return true;
+            else
+                return false;
+        }
+        if(numrotation % 2 == 1)
+        {
+            for(int i = 0; i < 4; i++)
+            {   
+                if(!(well[rows[i] + 1][cols[i]] == 0 && (rows[i] + 1) <= 19))
+                    return false;
+            }
+            return true;    
+        }
+    }
+    void Down(Well& well)
+    {
+        if(CanGoDown(well))
+        {
+            
             for(int i = 0; i < 4; i++)
                 ++rows[i];
-            cout << "Rows Incremented";
+            
             ResetGrid(well);
-            cout << "Grid Resetted";
+            
             for(int i = 0; i < 4; i++)
                 well[rows[i]][cols[i]] = 1;
-            cout << "Well Updated";
+            
         }
     }
-    void Rotate()
+    void Rotate(Well& well)
     {
         bool CanRotate = true;
         if(numrotation % 2 == 0)

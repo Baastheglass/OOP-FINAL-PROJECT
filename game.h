@@ -39,13 +39,13 @@ public:
                 window->close();
             }
             else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Left)
-                t->Left();
+                t->Left(well);
             else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Right)
-                t->Right();
+                t->Right(well);
             else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Down)
-                t->Down();
+                t->Down(well);
             else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Up)
-                t->Rotate();
+                t->Rotate(well);
         }
     }
     void ClearDisplay()
@@ -54,7 +54,6 @@ public:
     }
     void DrawWell()
     {
-
         well.DrawWell(window);
     }
     void RenderDisplay()
@@ -76,11 +75,15 @@ public:
         
             if(clock.getElapsedTime() >= t->getTimeLimit())
             {
-                t->DropOne(getWell());
+                t->DropOne(well);
                 clock.restart();
                 //i_tetrimino.PrintArray(game.getWell());    
             }
-            
+            if(t->getLastRow() == 19)
+            {
+                delete t;
+                t = new I_tetrimino(well);
+            }
             ClearDisplay();
         
             DrawWell();

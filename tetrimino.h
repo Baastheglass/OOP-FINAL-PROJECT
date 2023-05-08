@@ -11,16 +11,14 @@ protected:
     int numrotation;
     int rows[4];
     int cols[4];
-    int lastrow;
     sf::Clock clock;
     sf::Time timelimit;
-    Well well;
+    Well* well;
 public:
     tetrimino(Well& well)
     {
-        this->well = well;
+        this->well = &well;
         numrotation = 0;
-        lastrow = 0;
         for(int i = 0; i < 4; i++)
         {
             rows[i] = 0;
@@ -54,27 +52,27 @@ public:
         }
         cout << endl;
     }
-    virtual void Rotate()
+    virtual void Rotate(Well& well)
     {
 
     }
-    virtual bool CanGoLeft()
+    virtual bool CanGoLeft(Well& well)
     {
 
     }
-    virtual void Left()
+    virtual void Left(Well& well)
     {
         cout << "TetrminoLeft()";
     }
-    virtual void Down()
+    virtual void Down(Well& well)
     {
 
     }
-    virtual void Up()
+    virtual void Up(Well& well)
     {
 
     }
-    virtual void Right()
+    virtual void Right(Well& well)
     {
 
     }
@@ -97,7 +95,15 @@ public:
     {
         return timelimit;
     }
+    virtual int getLastRow()
+    {
+
+    }
     virtual void DropOne(Well& well)
+    {
+
+    }
+    virtual ~tetrimino()
     {
 
     }
