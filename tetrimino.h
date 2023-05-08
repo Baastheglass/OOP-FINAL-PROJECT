@@ -15,9 +15,9 @@ protected:
     sf::Time timelimit;
     Well* well;
 public:
-    tetrimino(Well& well)
+    tetrimino(Well* well)
     {
-        this->well = &well;
+        this->well = well;
         numrotation = 0;
         for(int i = 0; i < 4; i++)
         {
@@ -26,13 +26,15 @@ public:
         }
         timelimit = sf::seconds(1.0f);
     }
-    virtual void ResetGrid(Well& well)
+    virtual void ResetGrid(Well* well)
     {
         for(int i = 0; i < 20; i++)
         {
             for(int j = 0; j < 10; j++)
             {
-                well[i][j] = 0;
+                // well[i][j] = 0;
+                // well->grid[i][j] = 0;
+                well->operator[](i)[j] = 0;
             }
         }
     }
@@ -52,27 +54,27 @@ public:
         }
         cout << endl;
     }
-    virtual void Rotate(Well& well)
+    virtual void Rotate(Well* well)
     {
 
     }
-    virtual bool CanGoLeft(Well& well)
+    virtual bool CanGoLeft(Well* well)
     {
 
     }
-    virtual void Left(Well& well)
+    virtual void Left(Well* well)
     {
         cout << "TetrminoLeft()";
     }
-    virtual void Down(Well& well)
+    virtual void Down(Well* well)
     {
 
     }
-    virtual void Up(Well& well)
+    virtual void Up(Well* well)
     {
 
     }
-    virtual void Right(Well& well)
+    virtual void Right(Well* well)
     {
 
     }
@@ -99,7 +101,7 @@ public:
     {
 
     }
-    virtual void DropOne(Well& well)
+    virtual void DropOne(Well* well)
     {
 
     }
