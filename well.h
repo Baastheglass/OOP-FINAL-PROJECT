@@ -3,12 +3,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 using namespace std;
-//#include "game.h"
+
 class Well
 { 
 friend class I_tetrimino;
 private:    
     int grid[20][10];
+    bool storegrid[20][10];
     sf::RectangleShape* square;
     float xpos;
     float ypos;

@@ -13,7 +13,7 @@ class I_tetrimino : public tetrimino
 private:
     sf::Time time;
 public:
-    I_tetrimino(Well& well) : tetrimino(well)
+    I_tetrimino(Well* well) : tetrimino(well)
     {
         timelimit = sf::seconds(1.0f);
         for(int i = 0; i < 4; i++)
@@ -23,10 +23,10 @@ public:
         }
         for(int i = 0; i < 4; i++)
         {
-            well.grid[rows[i]][cols[i]] = 1;
+            well->grid[rows[i]][cols[i]] = 1;
         } 
     }
-    void DropOne(Well& well)
+    void DropOne(Well* well)
     {
         if(rows[3] < 19)
         {
@@ -35,7 +35,7 @@ public:
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
-                well.grid[rows[i]][cols[i]] = 1;
+                well->grid[rows[i]][cols[i]] = 1;
             }    
         }
     }
@@ -43,13 +43,13 @@ public:
     {
         return rows[3];
     }
-    bool CanGoLeft(Well& well)
+    bool CanGoLeft(Well* well)
     {
         if(numrotation == 0 || numrotation % 2 == 0)
         {    
             for(int i = 0; i < 4; i++)
             {
-                if(!(well[rows[i]][cols[i] - 1] == 0 && (cols[i] - 1) >= 0 && rows[3] < 19))
+                if(!(well->grid[rows[i]][cols[i] - 1] == 0 && (cols[i] - 1) >= 0 && rows[3] < 19))
                     return false;
             }
             return true;
@@ -62,7 +62,7 @@ public:
                 return false;
         }
     }
-    void Left(Well& well)
+    void Left(Well* well)
     {
         if(CanGoLeft(well))
         {    
@@ -75,17 +75,17 @@ public:
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
-                well[rows[i]][cols[i]] = 1;
+                well->grid[rows[i]][cols[i]] = 1;
             }
         }
     }
-    bool CanGoRight(Well& well)
+    bool CanGoRight(Well* well)
     {
         if(numrotation % 2 == 0 || numrotation == 0)
         {
             
             for(int i = 0; i < 4; i++)
-                if(!(well[rows[i]][cols[i] + 1] == 0 && (cols[i] + 1) <= 9 && rows[3] < 19))
+                if(!(well->grid[rows[i]][cols[i] + 1] == 0 && (cols[i] + 1) <= 9 && rows[3] < 19))
                     return false;
             
             return true;
@@ -93,13 +93,13 @@ public:
         }
         else if(numrotation % 2 != 0)
         {
-            if(well[rows[3]][cols[3] + 1] == 0 && cols[3] < 9)
+            if(well->grid[rows[3]][cols[3] + 1] == 0 && cols[3] < 9)
                 return true;
             else
                 return false;
         }
     }
-    void Right(Well& well)
+    void Right(Well* well)
     {
         if(CanGoRight(well))
         {
@@ -110,15 +110,15 @@ public:
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
-                well[rows[i]][cols[i]] = 1;
+                well->grid[rows[i]][cols[i]] = 1;
             }
         }
     }
-    bool CanGoDown(Well& well)
+    bool CanGoDown(Well* well)
     {
         if(numrotation % 2 == 0 || numrotation == 0)
         {
-            if(well[rows[3] + 1][cols[3]] == 0 && rows[3] + 1 <= 19)
+            if(well->grid[rows[3] + 1][cols[3]] == 0 && rows[3] + 1 <= 19)
                 return true;
             else
                 return false;
@@ -127,13 +127,13 @@ public:
         {
             for(int i = 0; i < 4; i++)
             {   
-                if(!(well[rows[i] + 1][cols[i]] == 0 && (rows[i] + 1) <= 19))
+                if(!(well->grid[rows[i] + 1][cols[i]] == 0 && (rows[i] + 1) <= 19))
                     return false;
             }
             return true;    
         }
     }
-    void Down(Well& well)
+    void Down(Well* well)
     {
         if(CanGoDown(well))
         {
@@ -144,18 +144,18 @@ public:
             ResetGrid(well);
             
             for(int i = 0; i < 4; i++)
-                well[rows[i]][cols[i]] = 1;
+                well->grid[rows[i]][cols[i]] = 1;
             
         }
     }
-    void Rotate(Well& well)
+    void Rotate(Well* well)
     {
         bool CanRotate = true;
         if(numrotation % 2 == 0 || numrotation == 0)
         {
             for(int i = 1; i < 4; i++)//checking if it can rotate
             {
-                if(well[rows[0]][cols[0] + i] != 0 || (cols[0] > 6))
+                if(well->grid[rows[0]][cols[0] + i] != 0 || (cols[0] > 6))
                     CanRotate = false;
             }
             if(CanRotate == true)
@@ -185,6 +185,6 @@ public:
         }
         ResetGrid(well);
         for(int i = 0; i < 4; i++)
-            well[rows[i]][cols[i]] = 1; 
+            well->grid[rows[i]][cols[i]] = 1; 
     }
 };
