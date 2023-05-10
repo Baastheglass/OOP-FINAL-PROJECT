@@ -46,6 +46,17 @@ public:
         }
         
     }
+    void PrintGrid()
+    {
+        for(int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                cout << grid[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
     void setXpos(int x)
     {
         xpos = x;
@@ -123,19 +134,16 @@ public:
                 grid[i][k] = 0;
                 storegrid[i][k] = 0;
             }
-            for(int k = i + 1; k < 20; k++)//making it fall
+            for(int k = i; k > 0; k--)//moving everything down
             {
-                for(int j = 0; j < 10; j++)
+                for(int l = 0; l < 10; l++)
                 {
-                    if(grid[k + 1][j] == 0 && grid[k][j] != 0 && storegrid[k + 1][j] == 0 && storegrid[k][j] != 0)
-                    {
-                        swap(grid[k + 1][j], grid[k][j]);
-                        swap(storegrid[k + 1][j], storegrid[k][j]);
-                    }
-                        
+                    grid[k][l] = grid[k - 1][l];
+                    storegrid[k][l] = storegrid[k - 1][l];
                 }
             }
-            
+            PrintGrid();
+            cout << endl;   
         }
     }
     ~Well()

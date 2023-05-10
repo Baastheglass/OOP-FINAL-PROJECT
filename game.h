@@ -74,8 +74,6 @@ public:
         {
             CheckForEvents();             
             
-            well->DestroyLine();
-            
             if(clock.getElapsedTime() >= t->getTimeLimit())
             {
                 t->DropOne(well);
@@ -85,11 +83,14 @@ public:
 
             t->Store(well);
             
+            well->DestroyLine();
+            
             if(t->getLastRow() == 19 || t->getStored() == true)
             {
                 delete t;
                 t = new I_tetrimino(well);
             }
+
             ClearDisplay();
         
             DrawWell();

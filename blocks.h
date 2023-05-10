@@ -235,3 +235,9 @@ public:
         }
     }
 };
+class O_tetrimino : public tetrimino
+{
+private:
+
+public:
+}
