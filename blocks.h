@@ -56,7 +56,7 @@ public:
         }
         else if(numrotation % 2 == 1)
         {
-            if(well[rows[0]][cols[0] - 1] == 0 && cols[0] - 1 >= 0)
+            if(well->grid[rows[0]][cols[0] - 1] == 0 && (cols[0] - 1) >= 0)
                 return true;
             else
                 return false;
@@ -186,5 +186,52 @@ public:
         ResetGrid(well);
         for(int i = 0; i < 4; i++)
             well->grid[rows[i]][cols[i]] = 1; 
+    }
+    void ResetGrid(Well* well)
+    {
+        for(int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                if(well->storegrid[i][j] == 0)
+                    well->operator[](i)[j] = 0;
+            }
+        }
+    }
+    bool CollisionDetected(Well* well)
+    {
+        if(numrotation == 0 || numrotation % 2 == 0)//vertical
+        {
+            if(well->grid[rows[3] + 1][cols[3]] != 0)//checking bottom
+                return true;
+            else
+                return false;
+        }
+        else if(numrotation % 2 == 1)//horizontal
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                if(well->grid[rows[i] + 1][cols[i]] != 0)
+                    return true;
+            }
+            return false;
+        }
+    }
+    void Store(Well* well)
+    {
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        {
+            for(int i = 0; i < 20; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    if(well->grid[i][j] == 1)
+                    {
+                        well->storegrid[i][j] = 1;
+                    }
+                }
+            }
+            stored = true;
+        }
     }
 };

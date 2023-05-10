@@ -73,14 +73,19 @@ public:
         while(isRunning())//game loop
         {
             CheckForEvents();             
-        
+            
+            well->DestroyLine();
+            
             if(clock.getElapsedTime() >= t->getTimeLimit())
             {
                 t->DropOne(well);
                 clock.restart();
                 //i_tetrimino.PrintArray(game.getWell());    
             }
-            if(t->getLastRow() == 19)
+
+            t->Store(well);
+            
+            if(t->getLastRow() == 19 || t->getStored() == true)
             {
                 delete t;
                 t = new I_tetrimino(well);

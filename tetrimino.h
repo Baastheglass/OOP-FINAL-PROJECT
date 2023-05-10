@@ -14,6 +14,7 @@ protected:
     sf::Clock clock;
     sf::Time timelimit;
     Well* well;
+    bool stored;
 public:
     tetrimino(Well* well)
     {
@@ -25,16 +26,11 @@ public:
             cols[i] = 0;
         }
         timelimit = sf::seconds(1.0f);
+        stored = false;
     }
     virtual void ResetGrid(Well* well)
     {
-        for(int i = 0; i < 20; i++)
-        {
-            for(int j = 0; j < 10; j++)
-            {
-                well->operator[](i)[j] = 0;
-            }
-        }
+        
     }
     virtual void PrintRows()
     {
@@ -103,9 +99,17 @@ public:
     {
 
     }
-    virtual void store()
+    virtual void Store(Well* well)
+    {
+
+    }
+    virtual bool CollisionDetected(Well* well)
     {
         
+    }
+    virtual bool getStored()
+    {
+        return stored;
     }
     virtual ~tetrimino()
     {

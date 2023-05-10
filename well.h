@@ -24,6 +24,7 @@ public:
         {
             for(int j = 0; j < 10; j++)
             {
+                storegrid[i][j] = 0;
                 grid[i][j] = 0;
             }
         }
@@ -99,6 +100,43 @@ public:
         }
         for(int i = 0; i < 200; i++)
             window->draw(square[i]);
+    }
+    void DestroyLine()
+    {
+        bool LineFull;
+        int i;
+        for(i = 0; i < 20; i++)
+        {
+            LineFull = true;
+            for(int j = 0; j < 10 && LineFull == true; j++)
+            {
+                if(storegrid[i][j] == 0)
+                    LineFull = false;    
+            }
+            if(LineFull == true)
+                break;
+        }
+        if(LineFull == true)
+        {
+            for(int k = 0; k < 10; k++)//making full line 0
+            {
+                grid[i][k] = 0;
+                storegrid[i][k] = 0;
+            }
+            for(int k = i + 1; k < 20; k++)//making it fall
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    if(grid[k + 1][j] == 0 && grid[k][j] != 0 && storegrid[k + 1][j] == 0 && storegrid[k][j] != 0)
+                    {
+                        swap(grid[k + 1][j], grid[k][j]);
+                        swap(storegrid[k + 1][j], storegrid[k][j]);
+                    }
+                        
+                }
+            }
+            
+        }
     }
     ~Well()
     {
