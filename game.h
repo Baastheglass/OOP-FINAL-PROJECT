@@ -18,12 +18,14 @@ public:
     {
         window = new sf::RenderWindow(sf::VideoMode(1920,1200), "Tetris");
         // tetriminochooser = rand() % 7 + 1;
-        tetriminochooser = 2;
+        tetriminochooser = 3;
         well = new Well();
         if(tetriminochooser == 1)
             t = new I_tetrimino(well);
         else if(tetriminochooser == 2)
             t = new O_tetrimino(well);
+        else if(tetriminochooser == 3)
+            t = new J_tetrimino(well);
     }
     Well* getWell()
     {
@@ -79,8 +81,7 @@ public:
             if(clock.getElapsedTime() >= t->getTimeLimit())
             {
                 t->DropOne(well);
-                clock.restart();
-                //i_tetrimino.PrintArray(game.getWell());    
+                clock.restart();    
             }
 
             t->Store(well);
@@ -91,7 +92,7 @@ public:
             if(t->getLastRow() == 19 || t->getStored() == true)
             {
                 delete t;
-                t = new O_tetrimino(well);
+                t = new J_tetrimino(well);
             }
 
             ClearDisplay();
