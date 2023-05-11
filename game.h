@@ -22,6 +22,8 @@ public:
         well = new Well();
         if(tetriminochooser == 1)
             t = new I_tetrimino(well);
+        else if(tetriminochooser == 2)
+            t = new O_tetrimino(well);
     }
     Well* getWell()
     {
@@ -82,9 +84,9 @@ public:
             }
 
             t->Store(well);
-            
+                    
             well->DestroyLine();
-            
+
             if(t->getLastRow() == 19 || t->getStored() == true)
             {
                 delete t;

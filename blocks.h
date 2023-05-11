@@ -11,7 +11,7 @@ void myswap(int& a, int& b)
 class I_tetrimino : public tetrimino 
 {
 private:
-    sf::Time time;
+    
 public:
     I_tetrimino(Well* well) : tetrimino(well)
     {
@@ -187,17 +187,6 @@ public:
         for(int i = 0; i < 4; i++)
             well->grid[rows[i]][cols[i]] = 1; 
     }
-    void ResetGrid(Well* well)
-    {
-        for(int i = 0; i < 20; i++)
-        {
-            for(int j = 0; j < 10; j++)
-            {
-                if(well->storegrid[i][j] == 0)
-                    well->operator[](i)[j] = 0;
-            }
-        }
-    }
     bool CollisionDetected(Well* well)
     {
         if(numrotation == 0 || numrotation % 2 == 0)//vertical
@@ -240,4 +229,127 @@ class O_tetrimino : public tetrimino
 private:
 
 public:
-}
+    O_tetrimino(Well* well) : tetrimino(well)
+    {
+        rows[0] = 0;
+        rows[1] = 0;
+        rows[2] = 1;
+        rows[3] = 1;
+        
+        cols[0] = 4;
+        cols[1] = 5;
+        cols[2] = 4;
+        cols[3] = 5;
+        
+        for(int i = 0; i < 4; i++)
+        {
+            well->grid[rows[i]][cols[i]] = 2;
+        } 
+    }
+    void DropOne(Well* well)
+    {
+        if(rows[2] < 19)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                ++rows[i];
+            }
+            ResetGrid(well);
+            for(int i = 0; i < 4; i++)
+            {
+                well->grid[rows[i]][cols[i]] = 2;
+            }    
+        }
+    }
+    bool CanGoLeft(Well* well)
+    {
+        if(cols[0] > 0 && well->grid[rows[0]][cols[0] - 1] == 0 && well->grid[rows[2]][cols[2] - 1] == 0)
+            return true;
+        else
+            return false;
+    }
+    void Left(Well* well)
+    {
+        if(CanGoLeft(well))
+        {    
+            for(int i = 0; i < 4; i++)
+            {
+                --cols[i];
+            }
+            ResetGrid(well);
+            for(int i = 0; i < 4; i++)
+            {
+                well->grid[rows[i]][cols[i]] = 2;
+            }
+        }
+    }
+    bool CanGoRight(Well* well)
+    {
+        if(cols[1] < 9 && well->grid[rows[1]][cols[1] + 1] == 0 && well->grid[rows[3]][cols[3] + 1] == 0)
+            return true;
+        else
+            return false;
+    }
+    void Right(Well* well)
+    {
+        if(CanGoRight(well))
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                ++cols[i];
+            }
+            ResetGrid(well);
+            for(int i = 0; i < 4; i++)
+            {
+                well->grid[rows[i]][cols[i]] = 2;
+            }
+        }
+    }
+    bool CanGoDown(Well* well)
+    {
+        if(rows[2] < 19 && well->grid[rows[2] + 1][cols[2]] == 0 && well->grid[rows[3] + 1][cols[3]] == 0)
+            return true;
+        else
+            return false;
+    }
+    void Down(Well* well)
+    {
+        if(CanGoDown(well))
+        {
+            
+            for(int i = 0; i < 4; i++)
+                ++rows[i];
+            
+            ResetGrid(well);
+            
+            for(int i = 0; i < 4; i++)
+                well->grid[rows[i]][cols[i]] = 2;
+            
+        }
+    }
+    bool CollisionDetected(Well* well)
+    {
+        if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            return true;
+        else
+            return false;
+    }
+    void Store(Well* well)
+    {
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        {
+            cout << "Collision detected";
+            for(int i = 0; i < 20; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    if(well->grid[i][j] == 2)
+                    {
+                        well->storegrid[i][j] = 1;
+                    }
+                }
+            }
+            stored = true;
+        }
+    }
+};

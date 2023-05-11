@@ -30,7 +30,14 @@ public:
     }
     virtual void ResetGrid(Well* well)
     {
-        
+        for(int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                if(well->storegrid[i][j] == 0)
+                    well->operator[](i)[j] = 0;
+            }
+        }            
     }
     virtual void PrintRows()
     {
@@ -58,7 +65,7 @@ public:
     }
     virtual void Left(Well* well)
     {
-        cout << "TetrminoLeft()";
+        
     }
     virtual void Down(Well* well)
     {

@@ -6,7 +6,9 @@ using namespace std;
 
 class Well
 { 
+friend class tetrimino;
 friend class I_tetrimino;
+friend class O_tetrimino;
 private:    
     int grid[20][10];
     bool storegrid[20][10];
@@ -57,22 +59,6 @@ public:
             cout << endl;
         }
     }
-    void setXpos(int x)
-    {
-        xpos = x;
-    }
-    int getXpos()
-    {
-        return xpos;
-    }
-    void setYpos(int y)
-    {
-        ypos = y;
-    }
-    int getYpos()
-    {
-        return ypos;
-    }
     int* operator [] (int index)
     {
         return grid[index];
@@ -105,6 +91,10 @@ public:
                 else if(grid[i][j] == 1)
                 {
                     square[squareindex].setFillColor(sf::Color::Red);
+                }
+                else if(grid[i][j] == 2)
+                {
+                    square[squareindex].setFillColor(sf::Color::Magenta);
                 }
                 squareindex++;
             }
