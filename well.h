@@ -102,6 +102,22 @@ public:
         for(int i = 0; i < 200; i++)
             window->draw(square[i]);
     }
+    bool isLineFull()
+    {
+        bool LineFull;
+        for(int i = 0; i < 20; i++)
+        {
+            LineFull = true;
+            for(int j = 0; j < 10 && LineFull == true; j++)
+            {
+                if(storegrid[i][j] == 0)
+                    LineFull = false;    
+            }
+            if(LineFull == true)
+                break;
+        }
+        return LineFull;
+    }
     void DestroyLine()
     {
         bool LineFull;
