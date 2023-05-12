@@ -574,7 +574,7 @@ public:
         }
         else if(numrotation % 4 == 3)
         {
-            if(well->grid[rows[0] - 1][cols[0]] != 0 && well->grid[rows[0] - 2][cols[0]] != 0 && well->grid[rows[0] - 2][cols[0] - 1] != 0)
+            if(well->grid[rows[0] - 1][cols[0]] != 0 && well->grid[rows[0] - 2][cols[0]] != 0 && well->grid[rows[0] - 2][cols[0] - 1] != 0 || cols[0] <= 0)
                 CanRotate = false;
             if(CanRotate == true)
             {
