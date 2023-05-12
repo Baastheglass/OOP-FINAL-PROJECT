@@ -10,6 +10,7 @@ friend class tetrimino;
 friend class I_tetrimino;
 friend class O_tetrimino;
 friend class J_tetrimino;
+friend class L_tetrimino;
 private:    
     int grid[20][10];
     bool storegrid[20][10];
@@ -100,6 +101,10 @@ public:
                 else if(grid[i][j] == 3)
                 {
                     square[squareindex].setFillColor(sf::Color::Yellow);
+                }
+                else if(grid[i][j] == 4)
+                {
+                    square[squareindex].setFillColor(sf::Color::Blue);
                 }
                 squareindex++;
             }
