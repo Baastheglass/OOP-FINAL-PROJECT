@@ -1187,3 +1187,205 @@ public:
         }
     }
 };
+class Z_tetrimino : public tetrimino
+{
+private:
+
+public:
+    Z_tetrimino(Well* well) : tetrimino(well)
+    {
+        rows[0] = 0;
+        cols[0] = 3;
+        rows[1] = 0;
+        cols[1] = 4;
+        rows[2] = 1;
+        cols[2] = 4;
+        rows[3] = 1;
+        cols[3] = 5;
+        
+        for(int i = 0; i < 4; i++)
+        {
+            well->grid[rows[i]][cols[i]] = 6;
+        }
+    }
+    void DropOne(Well* well)
+    {
+        if(rows[3] < 19)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                ++rows[i];
+            }
+            ResetGrid(well);
+            for(int i = 0; i < 4; i++)
+            {
+                well->grid[rows[i]][cols[i]] = 6;
+            }    
+        }
+    }
+    bool CanGoLeft(Well* well)
+    {
+        if(numrotation == 0 || numrotation % 2 == 0)
+        {
+            if(cols[0] > 0 && well->grid[rows[0]][cols[0] - 1] == 0 && well->grid[rows[2]][cols[2] - 1] == 0)
+                return true;
+            else
+                return false;
+        }
+        else if(numrotation % 2 == 1)
+        {
+            if(cols[2] > 0 && well->grid[rows[0]][cols[0] - 1] == 0 && well->grid[rows[2]][cols[2] - 1] == 0 && well->grid[rows[3]][cols[3] - 1] == 0)
+                return true;
+            else
+                return false;
+        }
+    }
+    void Left(Well* well)
+    {
+        if(CanGoLeft(well))
+        {    
+            for(int i = 0; i < 4; i++)
+            {
+                --cols[i];
+            }
+            ResetGrid(well);
+            for(int i = 0; i < 4; i++)
+            {
+                well->grid[rows[i]][cols[i]] = 6;
+            }
+        }
+    }
+    bool CanGoRight(Well* well)
+    {
+        if(numrotation == 0 || numrotation % 2 == 0)
+        {
+            if(cols[3] < 9 && well->grid[rows[1]][cols[1] + 1] == 0 && well->grid[rows[3]][cols[3] + 1] == 0)
+                return true;
+            else
+                return false;
+        }
+        else if(numrotation % 2 == 1)
+        {
+            if(cols[0] < 9 && well->grid[rows[0]][cols[0] + 1] == 0 && well->grid[rows[1]][cols[1] + 1] == 0 && well->grid[rows[3]][cols[3] + 1] == 0)
+                return true;
+            else
+                return false;
+        }
+    }
+    void Right(Well* well)
+    {
+        if(CanGoRight(well))
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                ++cols[i];
+            }
+            ResetGrid(well);
+            for(int i = 0; i < 4; i++)
+            {
+                well->grid[rows[i]][cols[i]] = 6;
+            }
+        }
+    }
+    bool CanGoDown(Well* well)
+    {
+        if(numrotation % 2 == 0 || numrotation == 0)
+        {
+            if(rows[2] < 19 && well->grid[rows[2] + 1][cols[2]] == 0 && well->grid[rows[3] + 1][cols[3]] == 0)
+                return true;
+            else
+                return false;
+        }
+        else if(numrotation % 2 == 1)
+        {
+            if(rows[3] < 19 && well->grid[rows[3] + 1][cols[3]] == 0 && well->grid[rows[1] + 1][cols[1]] == 0)
+                return true;
+            else
+                return false;
+        }
+    }
+    void Down(Well* well)
+    {
+        if(CanGoDown(well))
+        {
+            
+            for(int i = 0; i < 4; i++)
+                ++rows[i];
+            
+            ResetGrid(well);
+            
+            for(int i = 0; i < 4; i++)
+                well->grid[rows[i]][cols[i]] = 6;
+            
+        }
+    }
+    void Rotate(Well* well)
+    {
+        bool CanRotate = true;
+        if(numrotation == 0 || numrotation % 2 == 0)
+        {
+            if(well->grid[rows[0] + 1][cols[0]] != 0 && well->grid[rows[0] + 1][cols[0] - 1] != 0 && well->grid[rows[0] + 2][cols[0] - 1] != 0 || cols[0] < 1)
+                CanRotate = false;
+            if(CanRotate == true)
+            {
+                ++rows[1];
+                --cols[1];
+                cols[2] -= 2;
+                ++rows[3];
+                cols[3] -= 3;
+                numrotation++;
+            }
+        }
+        else if(numrotation % 2 == 1)
+        {
+            if(well->grid[rows[0]][cols[0] + 1] != 0 && well->grid[rows[0] + 1][cols[0] + 1] != 0 && well->grid[rows[0] + 1][cols[0] + 2] != 0 || cols[0] > 7)
+                CanRotate = false;
+            if(CanRotate == true)
+            {
+                --rows[1];
+                ++cols[1];
+                cols[2] += 2;
+                --rows[3];
+                cols[3] += 3;
+                numrotation++;
+            }
+        }
+        ResetGrid(well);
+        for(int i = 0; i < 4; i++)
+            well->grid[rows[i]][cols[i]] = 6;
+    }
+    bool CollisionDetected(Well* well)
+    {
+        if(numrotation % 2 == 0 && numrotation == 0)
+        {
+            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+                return true;
+            else
+                return false;
+        }
+        else if(numrotation % 2 == 1)
+        {
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0)
+                return true;
+            else
+                return false;
+        }
+    }
+    void Store(Well* well)
+    {
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        {
+            for(int i = 0; i < 20; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    if(well->grid[i][j] == 6)
+                    {
+                        well->storegrid[i][j] = 1;
+                    }
+                }
+            }
+            stored = true;
+        }
+    }
+};
