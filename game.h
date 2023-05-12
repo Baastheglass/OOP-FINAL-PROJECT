@@ -18,7 +18,7 @@ public:
     {
         window = new sf::RenderWindow(sf::VideoMode(1920,1200), "Tetris");
         // tetriminochooser = rand() % 7 + 1;
-        tetriminochooser = 3;
+        tetriminochooser = 5;
         well = new Well();
         if(tetriminochooser == 1)
             t = new I_tetrimino(well);
@@ -28,6 +28,8 @@ public:
             t = new J_tetrimino(well);
         else if(tetriminochooser == 4)
             t = new L_tetrimino(well);
+        else if(tetriminochooser == 5)
+            t = new S_tetrimino(well);
     }
     Well* getWell()
     {
@@ -89,7 +91,7 @@ public:
             if(t->getLastRow() == 19 || t->getStored() == true)
             {
                 delete t;
-                t = new J_tetrimino(well);
+                t = new S_tetrimino(well);
             }
 
             t->Store(well);
