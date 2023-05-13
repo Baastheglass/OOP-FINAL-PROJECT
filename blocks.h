@@ -15,7 +15,6 @@ private:
 public:
     I_tetrimino(Well* well) : tetrimino(well)
     {
-        timelimit = sf::seconds(1.0f);
         for(int i = 0; i < 4; i++)
         {
             rows[i] = i;
@@ -38,10 +37,6 @@ public:
                 well->grid[rows[i]][cols[i]] = 1;
             }    
         }
-    }
-    int getLastRow()
-    {
-        return rows[3];
     }
     bool CanGoLeft(Well* well)
     {
@@ -70,8 +65,7 @@ public:
             for(int i = 0; i < 4; i++)
             {
                 --cols[i];
-            }
-            
+            }       
             ResetGrid(well);
             for(int i = 0; i < 4; i++)
             {
@@ -118,7 +112,7 @@ public:
     {
         if(numrotation % 2 == 0 || numrotation == 0)
         {
-            if(well->grid[rows[3] + 1][cols[3]] == 0 && rows[3] + 1 <= 19)
+            if(well->grid[rows[3] + 1][cols[3]] == 0 && rows[3] < 19)
                 return true;
             else
                 return false;
@@ -187,29 +181,45 @@ public:
         for(int i = 0; i < 4; i++)
             well->grid[rows[i]][cols[i]] = 1; 
     }
-    bool CollisionDetected(Well* well)
+    bool CollisionDetected(Well* well) //issue here
     {
         if(numrotation == 0 || numrotation % 2 == 0)//vertical
         {
-            if(well->grid[rows[3] + 1][cols[3]] != 0)//checking bottom
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[0] - 1][cols[0]] != 0)
+            {
+                //checking bottom
+                cout << "True";
                 return true;
+            }
             else
+            {
+                // cout << "False";
                 return false;
+            }
+                //return false;
         }
         else if(numrotation % 2 == 1)//horizontal
         {
-            for(int i = 0; i < 4; i++)
+            if(well->grid[rows[0] + 1][cols[0] != 0 || well->grid[rows[1] + 1][cols[1]]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0] != 0 || well->grid[rows[1] - 1][cols[1]]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
             {
-                if(well->grid[rows[i] + 1][cols[i]] != 0)
-                    return true;
+                cout << "True";
+                return true;
             }
-            return false;
+                //return true;
+            else
+            {
+                //cout << "False";
+                return false;
+            }
+                //return false;
         }
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
         {
+            cout << "Entered Store";
             for(int i = 0; i < 20; i++)
             {
                 for(int j = 0; j < 10; j++)
@@ -329,14 +339,15 @@ public:
     }
     bool CollisionDetected(Well* well)
     {
-        if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+        if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+        ||well->grid[rows[0] - 1][cols[2]] != 0 || well->grid[rows[1] - 1][cols[3]] != 0)
             return true;
         else
             return false;
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -595,28 +606,32 @@ public:
     {
         if(numrotation == 0 || numrotation % 4 == 0)
         {    
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 1)
         {
-            if(well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[2] - 1][cols[2]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 2)
         {
-            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0)
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[1] - 1][cols[1]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 3)
         {
-            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[1] - 1][cols[1]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0)
                 return true;
             else
                 return false;
@@ -624,7 +639,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -907,28 +922,32 @@ public:
     {
         if(numrotation == 0 || numrotation % 4 == 0)
         {
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
                 return true;
             else
                 return false;    
         }
         else if(numrotation % 4 == 1)
         {
-            if(well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 2)
         {
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[3] - 1][cols[3]] != 0 || well->grid[rows[0] - 1][cols[0]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 3)
         {
-            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[1] + 1][cols[1] != 0])
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[1] + 1][cols[1] != 0]
+            || well->grid[rows[3] - 1][cols[3]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0 || well->grid[rows[0] - 1][cols[0]] != 0)
                 return true;
             else
                 return false;
@@ -938,7 +957,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0 || numrotation % 4 == 3)
         {
-            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -955,7 +974,7 @@ public:
         }
         else if(numrotation % 4 == 1)
         {
-            if((CollisionDetected(well) == true || rows[1] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[1] > 18) && stored == false && rows[0] > 0)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -972,7 +991,7 @@ public:
         }
         else if(numrotation % 4 == 2)
         {
-            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false && rows[0] > 0)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -1156,14 +1175,16 @@ public:
     {
         if(numrotation % 2 == 0 || numrotation == 0)
         {   
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[1] - 1][cols[1]] != 0 || well->grid[rows[0] - 1][cols[0]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 2 == 1)
         {
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[1] - 1][cols[1]] != 0 || well->grid[rows[0] - 1][cols[0]] != 0)
                 return true;
             else
                 return false;
@@ -1171,7 +1192,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[1] > 0)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -1210,7 +1231,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19)
+        if(rows[3] < 19 && CollisionDetected(well) == false)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -1358,14 +1379,16 @@ public:
     {
         if(numrotation % 2 == 0 && numrotation == 0)
         {
-            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[1] - 1][cols[1]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 2 == 1)
         {
-            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0)
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0)
                 return true;
             else
                 return false;
@@ -1373,7 +1396,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -1641,28 +1664,32 @@ public:
     {
         if(numrotation == 0 || numrotation % 4 == 0)
         {
-            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[1] - 1][cols[1]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0)
                 return true;
             else
                 return false;    
         }
         else if(numrotation % 4 == 1)
         {
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0
+            || well->grid[rows[3] - 1][cols[3]] != 0 || well->grid[rows[0] - 1][cols[0]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 2)
         {
-            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0)
+            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0 || well->grid[rows[2] - 1][cols[2]] != 0)
                 return true;
             else
                 return false;
         }
         else if(numrotation % 4 == 3)
         {
-            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0)
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0
+            || well->grid[rows[0] - 1][cols[0]] != 0 || well->grid[rows[3] - 1][cols[3]] != 0)
                 return true;
             else
                 return false;
@@ -1673,7 +1700,7 @@ public:
         
         if(numrotation % 4 == 0 || numrotation == 0)
         {
-            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -1688,9 +1715,26 @@ public:
                 stored = true;
             }
         }
-        else if(numrotation % 4 == 1 || numrotation % 4 == 2 || numrotation % 4 == 3)
+        else if(numrotation % 4 == 1 || numrotation % 4 == 3)
         {
-            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false && rows[0] > 0)
+            {
+                for(int i = 0; i < 20; i++)
+                {
+                    for(int j = 0; j < 10; j++)
+                    {
+                        if(well->grid[i][j] == 7)
+                        {
+                            well->storegrid[i][j] = 1;
+                        }
+                    }
+                }
+                stored = true;
+            }
+        }
+        else if(numrotation % 4 == 2)
+        {
+            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false && rows[3] > 0)
             {
                 for(int i = 0; i < 20; i++)
                 {

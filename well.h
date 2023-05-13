@@ -26,7 +26,11 @@ public:
     {
         squareindex = 0;
         xpos = 0;
-        ypos = 0;
+        ypos = 125;
+        sf::VideoMode desktop(sf::VideoMode::getDesktopMode());
+        int screenwidth = desktop.width;
+        int screenheight = desktop.height * 0.85;
+        int desktopWidth = 0.75 * screenheight;
         for(int i = 0; i < 20; i++)
         {
             for(int j = 0; j < 10; j++)
@@ -43,13 +47,13 @@ public:
             {
                 square[squareindex] = sf::RectangleShape();
                 square[squareindex].setPosition(sf::Vector2f(xpos,ypos));
-                square[squareindex].setSize(sf::Vector2f(50.0f,50.0f));
-                square[squareindex].setFillColor(sf::Color::Cyan);
-                square[squareindex].setOutlineColor(sf::Color::Blue);
+                square[squareindex].setSize(sf::Vector2f(desktopWidth * 0.06, desktopWidth * 0.06));
+                square[squareindex].setOutlineThickness(3.0f);
+                square[squareindex].setOutlineColor(sf::Color::Black);
                 squareindex++;
-                xpos += 55;
+                xpos += (desktopWidth * 0.06) + 3;
             }
-            ypos += 55;
+            ypos += (desktopWidth * 0.06) + 3;
         }
         
     }
@@ -91,35 +95,43 @@ public:
             {
                 if(grid[i][j] == 0)
                 {
-                    square[squareindex].setFillColor(sf::Color::Cyan);
+                    square[squareindex].setFillColor(sf::Color(0x6D676EFF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 1)
                 {
-                    square[squareindex].setFillColor(sf::Color::Red);
+                    square[squareindex].setFillColor(sf::Color(0x7FD1B9FF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 2)
                 {
-                    square[squareindex].setFillColor(sf::Color::Magenta);
+                    square[squareindex].setFillColor(sf::Color(0xF7EF81FF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 3)
                 {
-                    square[squareindex].setFillColor(sf::Color::Yellow);
+                    square[squareindex].setFillColor(sf::Color(0x54426BFF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 4)
                 {
-                    square[squareindex].setFillColor(sf::Color::Blue);
+                    square[squareindex].setFillColor(sf::Color(0xDE6E4BFF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 5)
                 {
-                    square[squareindex].setFillColor(sf::Color::Green);
+                    square[squareindex].setFillColor(sf::Color(0xC1FBA4FF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 6)
                 {
-                    square[squareindex].setFillColor(sf::Color::White);
+                    square[squareindex].setFillColor(sf::Color(0xDA4167FF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 else if(grid[i][j] == 7)
                 {
-                    square[squareindex].setFillColor(sf::Color::Red);
+                    square[squareindex].setFillColor(sf::Color(0xE56399FF));
+                    square[squareindex].setOutlineColor(sf::Color::Black);
                 }
                 squareindex++;
             }
@@ -176,6 +188,16 @@ public:
             PrintGrid();
             cout << endl;   
         }
+    }
+    bool topRowEmpty()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            if(grid[0][i] != 0)
+                return false;
+        }
+        cout << endl << "True";
+        return true;
     }
     ~Well()
     {
