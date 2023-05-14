@@ -164,12 +164,12 @@ public:
         sf::Clock clock;
         bool lost = false;
         bool nameinputted = false;
-        // while(nameinputted == false)
-        // {
-        //     cout << "Enter name: ";
-        //     cin >> pname;
-        //     nameinputted = true;
-        // }
+        while(nameinputted == false)
+        {
+            cout << "Enter name: ";
+            cin >> pname;
+            nameinputted = true;
+        }
         name.setString("Name: Baasil" + pname);
         while(isRunning() && well->topRowEmpty() == true)//game loop
         {
