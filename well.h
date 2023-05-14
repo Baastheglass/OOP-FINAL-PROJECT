@@ -193,10 +193,9 @@ public:
     {
         for(int i = 0; i < 10; i++)
         {
-            if(grid[0][i] != 0)
+            if(storegrid[0][i] != 0)
                 return false;
         }
-        cout << endl << "True";
         return true;
     }
     ~Well()
