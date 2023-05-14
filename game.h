@@ -16,6 +16,7 @@ private:
     sf::Text line;
     sf::Text score;
     sf::Text title;
+    sf::Text level;
     sf::Texture tet1;
     sf::Texture tet2;
     sf::Texture tet3;
@@ -57,12 +58,12 @@ public:
         line.setString("Lines :  " + to_string(lines));
         line.setCharacterSize(80);
         line.setFillColor(sf::Color::Black);
-        line.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 270), 1500);
+        line.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 1600);
         score.setFont(font);
         score.setString("Score :  " + to_string(lines * 100));
         score.setCharacterSize(80);
         score.setFillColor(sf::Color::Black);
-        score.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 270), 1000);
+        score.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 1100);
         title.setFont(font);
         title.setString("TETRIS");
         title.setCharacterSize(110);
@@ -71,7 +72,11 @@ public:
         name.setFont(font);
         name.setCharacterSize(80);
         name.setFillColor(sf::Color::Black);
-        name.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 245), 200);
+        name.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 275);
+        level.setFont(font);
+        level.setCharacterSize(80);
+        level.setFillColor(sf::Color::Black);
+        level.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 1350);
         tet1.loadFromFile("1.png");
         tet2.loadFromFile("2.png");
         tet3.loadFromFile("3.png");
@@ -86,13 +91,13 @@ public:
         tetr5 = sf::Sprite(tet5);
         tetr6 = sf::Sprite(tet6);
         tetr7 = sf::Sprite(tet7);
-        tetr1.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
-        tetr2.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
-        tetr3.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
-        tetr4.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
-        tetr5.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
-        tetr6.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
-        tetr7.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 400);
+        tetr1.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
+        tetr2.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
+        tetr3.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
+        tetr4.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
+        tetr5.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
+        tetr6.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
+        tetr7.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
     
         newtetriminochooser = rand() % 7 + 1;
         well = new Well();
@@ -159,13 +164,13 @@ public:
         sf::Clock clock;
         bool lost = false;
         bool nameinputted = false;
-        while(nameinputted == false)
-        {
-            cout << "Enter name: ";
-            cin >> pname;
-            nameinputted = true;
-        }
-        name.setString("Name: " + pname);
+        // while(nameinputted == false)
+        // {
+        //     cout << "Enter name: ";
+        //     cin >> pname;
+        //     nameinputted = true;
+        // }
+        name.setString("Name: Baasil" + pname);
         while(isRunning() && well->topRowEmpty() == true)//game loop
         {
             CheckForEvents();             
@@ -204,6 +209,51 @@ public:
                 well->DestroyLine();
                 ++lines;
             }
+            if(lines < 10)
+            {
+                level.setString("Level :  " + to_string(1));
+                t->setTimeLimit(1.0);
+            }
+            else if((lines / 10) % 8 == 1)
+            {
+                level.setString("Level :  " + to_string(2));
+                t->setTimeLimit(0.9);
+            }
+            else if((lines / 10) % 8 == 2)
+            {
+                level.setString("Level :  " + to_string(3));
+                t->setTimeLimit(0.8);
+            }
+            else if((lines / 10) % 8 == 3)
+            {
+                level.setString("Level :  " + to_string(4));
+                t->setTimeLimit(0.7);
+            }
+            else if((lines / 10) % 8 == 4)
+            {
+                level.setString("Level :  " + to_string(5));
+                t->setTimeLimit(0.6);
+            }
+            else if((lines / 10) % 8 == 5)
+            {
+                level.setString("Level :  " + to_string(6));
+                t->setTimeLimit(0.5);
+            }
+            else if((lines / 10) % 8 == 6)
+            {
+                level.setString("Level :  " + to_string(7));
+                t->setTimeLimit(0.4);
+            }
+            else if((lines / 10) % 8 == 7)
+            {
+                level.setString("Level :  " + to_string(8));
+                t->setTimeLimit(0.3);
+            }
+            else if((lines / 10) % 8 == 0)
+            {
+                level.setString("Level :  " + to_string(1));
+                t->setTimeLimit(1.0);
+            }    
             line.setString("Lines :  " + to_string(lines));
             score.setString("Score :  " + to_string(lines * 100));                    
 
@@ -215,6 +265,7 @@ public:
             window->draw(line);
             window->draw(score);
             window->draw(name);
+            window->draw(level);
             if(newtetriminochooser == 1)
                 window->draw(tetr1);
             else if(newtetriminochooser == 2)

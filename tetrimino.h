@@ -118,6 +118,10 @@ public:
     {
         return stored;
     }
+    virtual void setTimeLimit(int time)
+    {
+        timelimit = sf::seconds(time);
+    }
     virtual ~tetrimino()
     {
 
