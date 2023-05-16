@@ -27,7 +27,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19 && CollisionDetected(well) == false)
+        if(rows[3] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
         {
             for(int i = 0; i < 4; i++)
                 ++rows[i];
@@ -214,7 +214,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -258,7 +258,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[2] < 19 && CollisionDetected(well) == false)
+        if(rows[2] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -346,7 +346,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -387,7 +387,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19 && CollisionDetected(well) == false)
+        if(rows[3] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -638,7 +638,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -681,7 +681,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0 || numrotation % 4 == 3)
         {
-            if(rows[3] < 19 && CollisionDetected(well) == false)
+            if(rows[3] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -696,7 +696,7 @@ public:
         }
         else if(numrotation % 4 == 1)
         {
-            if(rows[1] < 19 && CollisionDetected(well) == false)
+            if(rows[1] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -711,7 +711,7 @@ public:
         }
         else if(numrotation % 4 == 2)
         {
-            if(rows[2] < 19 && CollisionDetected(well) == false)
+            if(rows[2] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -956,7 +956,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0 || numrotation % 4 == 3)
         {
-            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
+            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -973,7 +973,7 @@ public:
         }
         else if(numrotation % 4 == 1)
         {
-            if((CollisionDetected(well) == true || rows[1] > 18) && stored == false && rows[0] > 0)
+            if((CollisionDetected(well) == true || rows[1] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -990,7 +990,7 @@ public:
         }
         else if(numrotation % 4 == 2)
         {
-            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false && rows[0] > 0)
+            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -1034,7 +1034,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19 && CollisionDetected(well) == false)
+        if(rows[3] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -1193,7 +1193,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[1] > 0)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[1] > 0 || CanDrop(well) == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -1236,7 +1236,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19 && CollisionDetected(well) == false)
+        if(rows[3] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -1399,7 +1399,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
+        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -1443,7 +1443,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0)
         {
-            if(rows[3] < 19 && CollisionDetected(well) == false)
+            if(rows[3] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -1458,7 +1458,7 @@ public:
         }
         else if(numrotation % 4 == 1 || numrotation % 4 == 2 || numrotation % 4 == 3)
         {
-            if(rows[2] < 19 && CollisionDetected(well) == false)
+            if(rows[2] < 19 && CollisionDetected(well) == false && CanGoDown(well) == true)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -1703,7 +1703,7 @@ public:
         
         if(numrotation % 4 == 0 || numrotation == 0)
         {
-            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false || CanDrop(well) == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -1720,7 +1720,7 @@ public:
         }
         else if(numrotation % 4 == 1 || numrotation % 4 == 3 || numrotation % 4 == 2)
         {
-            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false)
+            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false || CanDrop(well) == false)
             {
                 for(int i = 0; i < 20; i++)
                 {

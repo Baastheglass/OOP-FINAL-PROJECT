@@ -67,11 +67,15 @@ public:
     {
         
     }
+    virtual bool CanGoDown(Well* well)
+    {
+
+    }
     virtual void Down(Well* well)
     {
 
     }
-    virtual void Up(Well* well)
+    virtual bool CanGoRight(Well* well)
     {
 
     }
@@ -101,6 +105,13 @@ public:
     virtual int getLastRow()
     {
 
+    }
+    virtual bool CanDrop(Well* well)
+    {
+        if(CanGoDown(well) == true)
+            return true;
+        else
+            return false;
     }
     virtual void DropOne(Well* well)
     {

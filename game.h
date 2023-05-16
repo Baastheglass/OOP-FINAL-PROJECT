@@ -58,7 +58,7 @@ public:
         int desktopHeight = desktop.height;
         window = new sf::RenderWindow(sf::VideoMode(desktopHeight * 0.75, desktopHeight * 0.85), "Tetris");
         lines = 0;
-        screen = 1;
+        screen = 0;
         tetriminochooser = rand() % 7 + 1;
         for(int i = 0; i < 5; i++)
         {
