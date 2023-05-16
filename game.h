@@ -4,8 +4,14 @@
 #include "blocks.h"
 #include <fstream>
 #include <iostream>
+#include <string.h>
 using namespace std;
-
+string Backspace(string str)
+{
+    string n;
+    n = str.substr(0 , str.length() - 1);
+    return n;
+}
 class Game
 {
 private:    
@@ -17,6 +23,8 @@ private:
     sf::Text score;
     sf::Text title;
     sf::Text level;
+    sf::Text Initname;
+    sf::Text Initinstruct;
     sf::Texture tet1;
     sf::Texture tet2;
     sf::Texture tet3;
@@ -39,6 +47,7 @@ private:
     int tetriminochooser;
     int newtetriminochooser;
     int lines;
+    int screen;
 public:
     Game()
     {
@@ -46,6 +55,7 @@ public:
         int desktopHeight = desktop.height;
         window = new sf::RenderWindow(sf::VideoMode(desktopHeight * 0.75, desktopHeight * 0.85), "Tetris");
         lines = 0;
+        screen = 0;
         tetriminochooser = rand() % 7 + 1;
         for(int i = 0; i < 5; i++)
         {
@@ -158,133 +168,193 @@ public:
     { 
         return window->isOpen();
     }
+    void InitialScreen()
+    {
+        sf::VideoMode desktop(sf::VideoMode::getDesktopMode());
+        sf::Event ev;
+        sf::RectangleShape namebox;
+        sf::Text initialtext;
+        string decname;
+        bool stored = false;
+        int desktopHeight = desktop.height;
+        namebox.setPosition(205, 900);
+        namebox.setSize(sf::Vector2f(1200, 150));
+        namebox.setOutlineThickness(3.0f);
+        namebox.setOutlineColor(sf::Color::Black);
+        Initinstruct.setFont(font);
+        Initinstruct.setString("Enter Name :  " );
+        Initinstruct.setCharacterSize(120);
+        Initinstruct.setFillColor(sf::Color::Black);
+        Initinstruct.setPosition(200, 750);
+        initialtext.setFont(font);
+        initialtext.setCharacterSize(110);
+        initialtext.setFillColor(sf::Color::Black);
+        initialtext.setPosition(210, 920);
+        while(window->pollEvent(ev) && screen == 0)
+        {
+            if(ev.type == sf::Event::Closed)
+            {
+                window->close();
+            }
+            for(int i = 'a'; i < 'z'; i++)
+            {
+                if(ev.type == sf::Event::TextEntered && ev.key.code == i)
+                    pname += i;
+                    
+            }
+            for(int i = 'A'; i < 'Z'; i++)
+            {
+                if(ev.type == sf::Event::TextEntered && ev.key.code == i)
+                    pname += i;
+            }
+            if(ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Backspace)
+                pname = Backspace(pname);
+            else if(ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Enter)
+            {
+                screen = 1;
+                break;
+            }
+        }
+        initialtext.setString(pname);
+        window->draw(Initinstruct);
+        window->draw(namebox);
+        window->draw(initialtext);
+        RenderDisplay();
+        ClearDisplay();
+    }
     void ExecutionLoop()
     {
         sf::Time time;
         sf::Clock clock;
         bool lost = false;
         bool nameinputted = false;
-        while(nameinputted == false)
+        name.setString("Name: " + pname);
+        while(isRunning() && screen == 1)//game loop
         {
-            cout << "Enter name: ";
-            cin >> pname;
-            nameinputted = true;
+            while(screen == 0)
+            {
+                InitialScreen();
+                name.setString("Name: " + pname);
+                
+            }
+            if(screen == 1)
+            {
+                CheckForEvents();   
+                
+                if(clock.getElapsedTime() >= t->getTimeLimit())
+                {
+                    t->DropOne(well);
+                    clock.restart();    
+                }
+                
+                if(t->getLastRow() == 19 || t->getStored() == true)
+                {
+                    delete t;
+                    tetriminochooser = newtetriminochooser;
+                    if(tetriminochooser == 1)
+                        t = new I_tetrimino(well);
+                    else if(tetriminochooser == 2)
+                        t = new O_tetrimino(well);
+                    else if(tetriminochooser == 3)
+                        t = new J_tetrimino(well);
+                    else if(tetriminochooser == 4)
+                        t = new L_tetrimino(well);
+                    else if(tetriminochooser == 5)
+                        t = new S_tetrimino(well);
+                    else if(tetriminochooser == 6)
+                        t = new Z_tetrimino(well);
+                    else if(tetriminochooser == 7)
+                        t = new T_tetrimino(well);
+                    newtetriminochooser = rand() % 7 + 1;
+                }
+
+                t->Store(well);
+
+                while(well->isLineFull() == true)
+                {
+                    well->DestroyLine();
+                    ++lines;
+                }
+                if(lines < 10)
+                {
+                    level.setString("Level :  " + to_string(1));
+                    t->setTimeLimit(1.0);
+                }
+                else if((lines / 10) % 8 == 1)
+                {
+                    level.setString("Level :  " + to_string(2));
+                    t->setTimeLimit(0.9);
+                }
+                else if((lines / 10) % 8 == 2)
+                {
+                    level.setString("Level :  " + to_string(3));
+                    t->setTimeLimit(0.8);
+                }
+                else if((lines / 10) % 8 == 3)
+                {
+                    level.setString("Level :  " + to_string(4));
+                    t->setTimeLimit(0.7);
+                }
+                else if((lines / 10) % 8 == 4)
+                {
+                    level.setString("Level :  " + to_string(5));
+                    t->setTimeLimit(0.6);
+                }
+                else if((lines / 10) % 8 == 5)
+                {
+                    level.setString("Level :  " + to_string(6));
+                    t->setTimeLimit(0.5);
+                }
+                else if((lines / 10) % 8 == 6)
+                {
+                    level.setString("Level :  " + to_string(7));
+                    t->setTimeLimit(0.4);
+                }
+                else if((lines / 10) % 8 == 7)
+                {
+                    level.setString("Level :  " + to_string(8));
+                    t->setTimeLimit(0.3);
+                }
+                else if((lines / 10) % 8 == 0)
+                {
+                    level.setString("Level :  " + to_string(1));
+                    t->setTimeLimit(1.0);
+                }    
+                line.setString("Lines :  " + to_string(lines));
+                score.setString("Score :  " + to_string(lines * 100));                    
+                if(well->topRowEmpty() == true)
+                    screen = 2;
+                ClearDisplay();
+            
+                DrawWell();
+                
+                window->draw(title);
+                window->draw(line);
+                window->draw(score);
+                window->draw(name);
+                window->draw(level);
+                if(newtetriminochooser == 1)
+                    window->draw(tetr1);
+                else if(newtetriminochooser == 2)
+                    window->draw(tetr2);
+                else if(newtetriminochooser == 3)
+                    window->draw(tetr3);
+                else if(newtetriminochooser == 4)
+                    window->draw(tetr4);
+                else if(newtetriminochooser == 5)
+                    window->draw(tetr5);
+                else if(newtetriminochooser == 6)
+                    window->draw(tetr6);
+                else if(newtetriminochooser == 7)
+                    window->draw(tetr7);
+                
+                RenderDisplay();    
+            }
         }
-        name.setString("Name: Baasil" + pname);
-        while(isRunning() && well->topRowEmpty() == true)//game loop
+        else if(screen = 2)
         {
-            CheckForEvents();             
-            
-            if(clock.getElapsedTime() >= t->getTimeLimit())
-            {
-                t->DropOne(well);
-                clock.restart();    
-            }
-            
-            if(t->getLastRow() == 19 || t->getStored() == true)
-            {
-                delete t;
-                tetriminochooser = newtetriminochooser;
-                if(tetriminochooser == 1)
-                    t = new I_tetrimino(well);
-                else if(tetriminochooser == 2)
-                    t = new O_tetrimino(well);
-                else if(tetriminochooser == 3)
-                    t = new J_tetrimino(well);
-                else if(tetriminochooser == 4)
-                    t = new L_tetrimino(well);
-                else if(tetriminochooser == 5)
-                    t = new S_tetrimino(well);
-                else if(tetriminochooser == 6)
-                    t = new Z_tetrimino(well);
-                else if(tetriminochooser == 7)
-                    t = new T_tetrimino(well);
-                newtetriminochooser = rand() % 7 + 1;
-            }
-
-            t->Store(well);
-
-            while(well->isLineFull() == true)
-            {
-                well->DestroyLine();
-                ++lines;
-            }
-            if(lines < 10)
-            {
-                level.setString("Level :  " + to_string(1));
-                t->setTimeLimit(1.0);
-            }
-            else if((lines / 10) % 8 == 1)
-            {
-                level.setString("Level :  " + to_string(2));
-                t->setTimeLimit(0.9);
-            }
-            else if((lines / 10) % 8 == 2)
-            {
-                level.setString("Level :  " + to_string(3));
-                t->setTimeLimit(0.8);
-            }
-            else if((lines / 10) % 8 == 3)
-            {
-                level.setString("Level :  " + to_string(4));
-                t->setTimeLimit(0.7);
-            }
-            else if((lines / 10) % 8 == 4)
-            {
-                level.setString("Level :  " + to_string(5));
-                t->setTimeLimit(0.6);
-            }
-            else if((lines / 10) % 8 == 5)
-            {
-                level.setString("Level :  " + to_string(6));
-                t->setTimeLimit(0.5);
-            }
-            else if((lines / 10) % 8 == 6)
-            {
-                level.setString("Level :  " + to_string(7));
-                t->setTimeLimit(0.4);
-            }
-            else if((lines / 10) % 8 == 7)
-            {
-                level.setString("Level :  " + to_string(8));
-                t->setTimeLimit(0.3);
-            }
-            else if((lines / 10) % 8 == 0)
-            {
-                level.setString("Level :  " + to_string(1));
-                t->setTimeLimit(1.0);
-            }    
-            line.setString("Lines :  " + to_string(lines));
-            score.setString("Score :  " + to_string(lines * 100));                    
-
-            ClearDisplay();
-        
-            DrawWell();
-            
-            window->draw(title);
-            window->draw(line);
-            window->draw(score);
-            window->draw(name);
-            window->draw(level);
-            if(newtetriminochooser == 1)
-                window->draw(tetr1);
-            else if(newtetriminochooser == 2)
-                window->draw(tetr2);
-            else if(newtetriminochooser == 3)
-                window->draw(tetr3);
-            else if(newtetriminochooser == 4)
-                window->draw(tetr4);
-            else if(newtetriminochooser == 5)
-                window->draw(tetr5);
-            else if(newtetriminochooser == 6)
-                window->draw(tetr6);
-            else if(newtetriminochooser == 7)
-                window->draw(tetr7);
-            
-            RenderDisplay();
+            ScoreHandling();    
         }
-        ScoreHandling();
-        cout << endl << "EndGame";
     }
     void ScoreHandling()
     {
@@ -315,6 +385,10 @@ public:
             fout << scores[i] << endl;
             cout << scores[i] << endl;
         }        
+    }
+    void LeaderBoard()
+    {
+        
     }
     ~Game()
     {

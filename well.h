@@ -193,7 +193,7 @@ public:
     {
         for(int i = 0; i < 10; i++)
         {
-            if(storegrid[0][i] != 0)
+            if(storegrid[0][i] != false)
                 return false;
         }
         return true;

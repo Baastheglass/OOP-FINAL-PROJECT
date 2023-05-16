@@ -27,7 +27,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19)
+        if(rows[3] < 19 && CollisionDetected(well) == false)
         {
             for(int i = 0; i < 4; i++)
                 ++rows[i];
@@ -188,7 +188,6 @@ public:
             if(well->grid[rows[3] + 1][cols[3]] != 0)
             {
                 //checking bottom
-                cout << "True";
                 return true;
             }
             else
@@ -202,7 +201,6 @@ public:
         {
             if(well->grid[rows[0] + 1][cols[0] != 0 || well->grid[rows[1] + 1][cols[1]]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
             {
-                cout << "True";
                 return true;
             }
                 //return true;
@@ -218,7 +216,6 @@ public:
     {
         if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0)
         {
-            cout << "Entered Store";
             for(int i = 0; i < 20; i++)
             {
                 for(int j = 0; j < 10; j++)
@@ -231,6 +228,10 @@ public:
             }
             stored = true;
         }
+    }
+    ~I_tetrimino()
+    {
+
     }
 };
 class O_tetrimino : public tetrimino
@@ -257,7 +258,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[2] < 19)
+        if(rows[2] < 19 && CollisionDetected(well) == false)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -360,6 +361,10 @@ public:
             stored = true;
         }
     }
+    ~O_tetrimino()
+    {
+
+    }
 };
 class J_tetrimino : public tetrimino
 {
@@ -382,7 +387,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19)
+        if(rows[3] < 19 && CollisionDetected(well) == false)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -648,6 +653,10 @@ public:
             stored = true;
         }
     }
+    ~J_tetrimino()
+    {
+
+    }
 };
 class L_tetrimino : public tetrimino
 {
@@ -672,7 +681,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0 || numrotation % 4 == 3)
         {
-            if(rows[3] < 19)
+            if(rows[3] < 19 && CollisionDetected(well) == false)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -687,7 +696,7 @@ public:
         }
         else if(numrotation % 4 == 1)
         {
-            if(rows[1] < 19)
+            if(rows[1] < 19 && CollisionDetected(well) == false)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -702,7 +711,7 @@ public:
         }
         else if(numrotation % 4 == 2)
         {
-            if(rows[2] < 19)
+            if(rows[2] < 19 && CollisionDetected(well) == false)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -997,6 +1006,10 @@ public:
             }
         }
     }
+    ~L_tetrimino()
+    {
+
+    }
 };
 class S_tetrimino : public tetrimino
 {
@@ -1021,7 +1034,7 @@ public:
     }
     void DropOne(Well* well)
     {
-        if(rows[3] < 19)
+        if(rows[3] < 19 && CollisionDetected(well) == false)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -1194,6 +1207,10 @@ public:
             }
             stored = true;
         }
+    }
+    ~S_tetrimino()
+    {
+
     }
 };
 class Z_tetrimino : public tetrimino
@@ -1397,6 +1414,10 @@ public:
             stored = true;
         }
     }
+    ~Z_tetrimino()
+    {
+
+    }
 };
 class T_tetrimino : public tetrimino
 {
@@ -1422,7 +1443,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0)
         {
-            if(rows[3] < 19)
+            if(rows[3] < 19 && CollisionDetected(well) == false)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -1437,7 +1458,7 @@ public:
         }
         else if(numrotation % 4 == 1 || numrotation % 4 == 2 || numrotation % 4 == 3)
         {
-            if(rows[2] < 19)
+            if(rows[2] < 19 && CollisionDetected(well) == false)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -1714,5 +1735,9 @@ public:
                 stored = true;
             }
         }
+    }
+    ~T_tetrimino()
+    {
+
     }  
 };
