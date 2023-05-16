@@ -14,6 +14,7 @@ friend class L_tetrimino;
 friend class S_tetrimino;
 friend class Z_tetrimino;
 friend class T_tetrimino;
+friend class Game;
 private:    
     int grid[20][10];
     bool storegrid[20][10];
@@ -194,7 +195,9 @@ public:
         for(int i = 0; i < 10; i++)
         {
             if(storegrid[0][i] != false)
+            {
                 return false;
+            }
         }
         return true;
     }

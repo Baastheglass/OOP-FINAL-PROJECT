@@ -25,6 +25,9 @@ private:
     sf::Text level;
     sf::Text Initname;
     sf::Text Initinstruct;
+    sf::Text onames[5];
+    sf::Text oscores[5];
+    sf::Text Leadertitle;
     sf::Texture tet1;
     sf::Texture tet2;
     sf::Texture tet3;
@@ -246,7 +249,8 @@ public:
                     t->DropOne(well);
                     clock.restart();    
                 }
-                
+                if(well->topRowEmpty() == false)
+                    screen = 2;
                 if(t->getLastRow() == 19 || t->getStored() == true)
                 {
                     delete t;
@@ -322,8 +326,7 @@ public:
                 }    
                 line.setString("Lines :  " + to_string(lines));
                 score.setString("Score :  " + to_string(lines * 100));                    
-                if(well->topRowEmpty() == true)
-                    screen = 2;
+            
                 ClearDisplay();
             
                 DrawWell();
@@ -352,7 +355,8 @@ public:
             }
             else if(screen = 2)
             {
-                ScoreHandling();    
+                ScoreHandling();
+                LeaderBoard();    
             }
         }
         
@@ -389,7 +393,38 @@ public:
     }
     void LeaderBoard()
     {
-
+        sf::Event ev;
+        Leadertitle.setFont(font);
+        Leadertitle.setString("LEADERBOARD");
+        Leadertitle.setCharacterSize(120);
+        Leadertitle.setFillColor(sf::Color::Black);
+        Leadertitle.setPosition(250, 0);    
+        for(int i = 0; i < 5; i++)
+        {
+            onames[i].setFont(font);
+            onames[i].setString(names[i] + " : ");
+            onames[i].setCharacterSize(80);
+            onames[i].setFillColor(sf::Color::Black);
+            onames[i].setPosition(150, 200 + (150 * i));
+            onames[i].setFont(font);
+            oscores[i].setString(to_string(scores[i]));
+            oscores[i].setCharacterSize(80);
+            oscores[i].setFillColor(sf::Color::Black);
+            oscores[i].setPosition(300, 200 + (150 * i));
+        }
+        while(window->pollEvent(ev))
+        {
+            if(ev.type == sf::Event::Closed)
+                window->close();
+        }
+        window->draw(Leadertitle);
+        for(int i = 0; i < 5; i++)
+        {
+            window->draw(onames[i]);
+            window->draw(oscores[i]);
+        }
+        RenderDisplay();
+        ClearDisplay();
     }
     ~Game()
     {
