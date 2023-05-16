@@ -26,7 +26,6 @@ private:
     sf::Text Initname;
     sf::Text Initinstruct;
     sf::Text onames[5];
-    sf::Text oscores[5];
     sf::Text Leadertitle;
     sf::Texture tet1;
     sf::Texture tet2;
@@ -387,7 +386,6 @@ public:
         {
             fout << names[i] << endl;
             fout << scores[i] << endl;
-            cout << scores[i] << endl;
         }        
     }
     void LeaderBoard()
@@ -401,15 +399,10 @@ public:
         for(int i = 0; i < 5; i++)
         {
             onames[i].setFont(font);
-            onames[i].setString(names[i] + " : ");
+            onames[i].setString(names[i] + " : " + to_string(scores[i]));
             onames[i].setCharacterSize(80);
             onames[i].setFillColor(sf::Color::Black);
             onames[i].setPosition(50, 350 + (300 * i));
-            onames[i].setFont(font);
-            oscores[i].setString(to_string(scores[i]));
-            oscores[i].setCharacterSize(80);
-            oscores[i].setFillColor(sf::Color::Black);
-            oscores[i].setPosition(200, 350 + (300 * i));
         }
         while(window->pollEvent(ev))
         {
@@ -419,7 +412,6 @@ public:
         window->draw(Leadertitle);
         for(int i = 0; i < 5; i++)
         {
-            window->draw(oscores[i]);
             window->draw(onames[i]);
         }
         RenderDisplay();
