@@ -58,7 +58,7 @@ public:
         int desktopHeight = desktop.height;
         window = new sf::RenderWindow(sf::VideoMode(desktopHeight * 0.75, desktopHeight * 0.85), "Tetris");
         lines = 0;
-        screen = 0;
+        screen = 1;
         tetriminochooser = rand() % 7 + 1;
         for(int i = 0; i < 5; i++)
         {
@@ -232,7 +232,7 @@ public:
         bool lost = false;
         bool nameinputted = false;
         name.setString("Name: " + pname);
-        while(isRunning() && screen == 1)//game loop
+        while(isRunning())//game loop
         {
             while(screen == 0)
             {
@@ -386,7 +386,6 @@ public:
         for(int i = 0; i < 5; i++)//outputting
         {
             fout << names[i] << endl;
-            cout << names[i] << ":";
             fout << scores[i] << endl;
             cout << scores[i] << endl;
         }        
@@ -398,19 +397,19 @@ public:
         Leadertitle.setString("LEADERBOARD");
         Leadertitle.setCharacterSize(120);
         Leadertitle.setFillColor(sf::Color::Black);
-        Leadertitle.setPosition(250, 0);    
+        Leadertitle.setPosition(420, 0);    
         for(int i = 0; i < 5; i++)
         {
             onames[i].setFont(font);
             onames[i].setString(names[i] + " : ");
             onames[i].setCharacterSize(80);
             onames[i].setFillColor(sf::Color::Black);
-            onames[i].setPosition(150, 200 + (150 * i));
+            onames[i].setPosition(50, 350 + (300 * i));
             onames[i].setFont(font);
             oscores[i].setString(to_string(scores[i]));
             oscores[i].setCharacterSize(80);
             oscores[i].setFillColor(sf::Color::Black);
-            oscores[i].setPosition(300, 200 + (150 * i));
+            oscores[i].setPosition(200, 350 + (300 * i));
         }
         while(window->pollEvent(ev))
         {
@@ -420,8 +419,8 @@ public:
         window->draw(Leadertitle);
         for(int i = 0; i < 5; i++)
         {
-            window->draw(onames[i]);
             window->draw(oscores[i]);
+            window->draw(onames[i]);
         }
         RenderDisplay();
         ClearDisplay();

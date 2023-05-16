@@ -220,7 +220,7 @@ public:
             {
                 for(int j = 0; j < 10; j++)
                 {
-                    if(well->grid[i][j] == 1)
+                    if(well->grid[i][j] == 1 && well->storegrid[i][j] == 0)
                     {
                         well->storegrid[i][j] = 1;
                     }
@@ -352,7 +352,7 @@ public:
             {
                 for(int j = 0; j < 10; j++)
                 {
-                    if(well->grid[i][j] == 2)
+                    if(well->grid[i][j] == 2 && well->storegrid[i][j] == 0)
                     {
                         well->storegrid[i][j] = 1;
                     }
@@ -644,7 +644,7 @@ public:
             {
                 for(int j = 0; j < 10; j++)
                 {
-                    if(well->grid[i][j] == 3)
+                    if(well->grid[i][j] == 3 && well->storegrid[i][j] == 0)
                     {
                         well->storegrid[i][j] = 1;
                     }
@@ -962,7 +962,7 @@ public:
                 {
                     for(int j = 0; j < 10; j++)
                     {
-                        if(well->grid[i][j] == 4)
+                        if(well->grid[i][j] == 4 && well->storegrid[i][j] == 0)
                         {
                             well->storegrid[i][j] = 1;
                         }
@@ -979,7 +979,7 @@ public:
                 {
                     for(int j = 0; j < 10; j++)
                     {
-                        if(well->grid[i][j] == 4)
+                        if(well->grid[i][j] == 4 && well->storegrid[i][j] == 0)
                         {
                             well->storegrid[i][j] = 1;
                         }
@@ -996,7 +996,7 @@ public:
                 {
                     for(int j = 0; j < 10; j++)
                     {
-                        if(well->grid[i][j] == 4)
+                        if(well->grid[i][j] == 4 && well->storegrid[i][j] == 0)
                         {
                             well->storegrid[i][j] = 1;
                         }
@@ -1199,7 +1199,7 @@ public:
             {
                 for(int j = 0; j < 10; j++)
                 {
-                    if(well->grid[i][j] == 5)
+                    if(well->grid[i][j] == 5 && well->storegrid[i][j] == 0)
                     {
                         well->storegrid[i][j] = 1;
                     }
@@ -1405,7 +1405,7 @@ public:
             {
                 for(int j = 0; j < 10; j++)
                 {
-                    if(well->grid[i][j] == 6)
+                    if(well->grid[i][j] == 6 && well->storegrid[i][j] == 0)
                     {
                         well->storegrid[i][j] = 1;
                     }
@@ -1709,7 +1709,7 @@ public:
                 {
                     for(int j = 0; j < 10; j++)
                     {
-                        if(well->grid[i][j] == 7)
+                        if(well->grid[i][j] == 7 && well->storegrid[i][j] == 0)
                         {
                             well->storegrid[i][j] = 1;
                         }
@@ -1726,7 +1726,7 @@ public:
                 {
                     for(int j = 0; j < 10; j++)
                     {
-                        if(well->grid[i][j] == 7)
+                        if(well->grid[i][j] == 7 && well->storegrid[i][j] == 0)
                         {
                             well->storegrid[i][j] = 1;
                         }
