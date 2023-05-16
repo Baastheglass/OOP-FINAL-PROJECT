@@ -350,11 +350,12 @@ public:
                 
                 RenderDisplay();    
             }
+            else if(screen = 2)
+            {
+                ScoreHandling();    
+            }
         }
-        else if(screen = 2)
-        {
-            ScoreHandling();    
-        }
+        
     }
     void ScoreHandling()
     {
@@ -388,7 +389,7 @@ public:
     }
     void LeaderBoard()
     {
-        
+
     }
     ~Game()
     {
