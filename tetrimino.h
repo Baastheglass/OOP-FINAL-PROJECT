@@ -98,6 +98,10 @@ public:
             cout << endl;
         }
     }
+    virtual int getNumRotation()
+    {
+        return numrotation;
+    }
     virtual sf::Time getTimeLimit()
     {
         return timelimit;
@@ -119,7 +123,7 @@ public:
     }
     virtual void Store(Well* well)
     {
-
+        
     }
     virtual bool CollisionDetected(Well* well)
     {
@@ -129,7 +133,7 @@ public:
     {
         return stored;
     }
-    virtual void setTimeLimit(int time)
+    virtual void setTimeLimit(float time)
     {
         timelimit = sf::seconds(time);
     }

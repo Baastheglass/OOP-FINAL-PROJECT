@@ -45,6 +45,7 @@ private:
     tetrimino* t;
     string pname;
     string names[5];
+    bool nameoverwrite;
     int scores[5];
     int tetriminochooser;
     int newtetriminochooser;
@@ -58,7 +59,9 @@ public:
         window = new sf::RenderWindow(sf::VideoMode(desktopHeight * 0.75, desktopHeight * 0.85), "Tetris");
         lines = 0;
         screen = 0;
-        tetriminochooser = rand() % 7 + 1;
+        nameoverwrite = false;
+        // tetriminochooser = rand() % 7 + 1;
+        tetriminochooser = 1;
         for(int i = 0; i < 5; i++)
         {
             scores[i] = -1;
@@ -70,12 +73,12 @@ public:
         line.setString("Lines :  " + to_string(lines));
         line.setCharacterSize(80);
         line.setFillColor(sf::Color::Black);
-        line.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 1600);
+        line.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 200), 1600);
         score.setFont(font);
         score.setString("Score :  " + to_string(lines * 100));
         score.setCharacterSize(80);
         score.setFillColor(sf::Color::Black);
-        score.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 1100);
+        score.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 200), 1100);
         title.setFont(font);
         title.setString("TETRIS");
         title.setCharacterSize(110);
@@ -84,11 +87,11 @@ public:
         name.setFont(font);
         name.setCharacterSize(80);
         name.setFillColor(sf::Color::Black);
-        name.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 275);
+        name.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 200), 275);
         level.setFont(font);
         level.setCharacterSize(80);
         level.setFillColor(sf::Color::Black);
-        level.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 220), 1350);
+        level.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 200), 1350);
         tet1.loadFromFile("1.png");
         tet2.loadFromFile("2.png");
         tet3.loadFromFile("3.png");
@@ -111,7 +114,9 @@ public:
         tetr6.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
         tetr7.setPosition((desktop.height * 0.85 * 0.75 * 0.06 * 9 + 27 + 350), 500);
     
-        newtetriminochooser = rand() % 7 + 1;
+        // newtetriminochooser = rand() % 7 + 1;
+        newtetriminochooser = 1;
+        
         well = new Well();
         if(tetriminochooser == 1)
             t = new I_tetrimino(well);
@@ -135,6 +140,10 @@ public:
     sf::RenderWindow& getWindow()
     {
         return *window;
+    }
+    bool isRunning()
+    {
+        return window->isOpen();
     }
     void CheckForEvents()
     {
@@ -166,10 +175,6 @@ public:
     {
         window->display();
     }
-    bool isRunning() const
-    { 
-        return window->isOpen();
-    }
     void InitialScreen()
     {
         sf::VideoMode desktop(sf::VideoMode::getDesktopMode());
@@ -198,13 +203,12 @@ public:
             {
                 window->close();
             }
-            for(int i = 'a'; i < 'z'; i++)
+            for(int i = 'a'; i < 'z' && pname.length() < 6; i++)
             {
                 if(ev.type == sf::Event::TextEntered && ev.key.code == i)
-                    pname += i;
-                    
+                    pname += i;    
             }
-            for(int i = 'A'; i < 'Z'; i++)
+            for(int i = 'A'; i < 'Z' && pname.length() < 6; i++)
             {
                 if(ev.type == sf::Event::TextEntered && ev.key.code == i)
                     pname += i;
@@ -268,7 +272,8 @@ public:
                         t = new Z_tetrimino(well);
                     else if(tetriminochooser == 7)
                         t = new T_tetrimino(well);
-                    newtetriminochooser = rand() % 7 + 1;
+                    // newtetriminochooser = rand() % 7 + 1;
+                    newtetriminochooser = 1;
                 }
 
                 t->Store(well);
@@ -286,37 +291,37 @@ public:
                 else if((lines / 10) % 8 == 1)
                 {
                     level.setString("Level :  " + to_string(2));
-                    t->setTimeLimit(0.9);
+                    t->setTimeLimit(0.95);
                 }
                 else if((lines / 10) % 8 == 2)
                 {
                     level.setString("Level :  " + to_string(3));
-                    t->setTimeLimit(0.8);
+                    t->setTimeLimit(0.9);
                 }
                 else if((lines / 10) % 8 == 3)
                 {
                     level.setString("Level :  " + to_string(4));
-                    t->setTimeLimit(0.7);
+                    t->setTimeLimit(0.85);
                 }
                 else if((lines / 10) % 8 == 4)
                 {
                     level.setString("Level :  " + to_string(5));
-                    t->setTimeLimit(0.6);
+                    t->setTimeLimit(0.8);
                 }
                 else if((lines / 10) % 8 == 5)
                 {
                     level.setString("Level :  " + to_string(6));
-                    t->setTimeLimit(0.5);
+                    t->setTimeLimit(0.75);
                 }
                 else if((lines / 10) % 8 == 6)
                 {
                     level.setString("Level :  " + to_string(7));
-                    t->setTimeLimit(0.4);
+                    t->setTimeLimit(0.7);
                 }
                 else if((lines / 10) % 8 == 7)
                 {
                     level.setString("Level :  " + to_string(8));
-                    t->setTimeLimit(0.3);
+                    t->setTimeLimit(0.65);
                 }
                 else if((lines / 10) % 8 == 0)
                 {
@@ -371,15 +376,23 @@ public:
             fin >> names[i];
             fin >> scores[i];
         }
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5 && nameoverwrite == false; i++)
         {
             if(lines*100 > scores[i])
             {
                 scores[i] = lines * 100;
                 names[i] = pname;
-                break;
+                nameoverwrite = true;
+                cout << "Name overwritten";
+            }               
+        }
+        for(int i = 0; i < 4; i++)
+        {
+            if(scores[i] < scores[i + 1])
+            {
+                swap(scores[i], scores[i + 1]);
+                swap(names[i] , names[i + 1]);
             }
-                
         }
         fout.open("Highscores.txt");
         for(int i = 0; i < 5; i++)//outputting

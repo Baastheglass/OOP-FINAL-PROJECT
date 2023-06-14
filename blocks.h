@@ -145,6 +145,7 @@ public:
     void Rotate(Well* well)
     {
         bool CanRotate = true;
+        bool CanRotateAlt = true;
         if(numrotation % 2 == 0 || numrotation == 0)
         {
             for(int i = 1; i < 4; i++)//checking if it can rotate
@@ -164,7 +165,7 @@ public:
         }
         else if(numrotation % 2 == 1)
         {
-            if(rows[0] > 16)
+            if(rows[0] > 16 || well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[0] + 2][cols[0]] != 0 || well->grid[rows[0] + 3][cols[0]] != 0)
                 CanRotate = false;
             
             if(CanRotate == true)
@@ -177,11 +178,58 @@ public:
                 numrotation++;
             }
         }
+        // if(CanRotate == false)
+        // {
+        //     cout << "In";
+        //     if(numrotation % 2 == 0 || numrotation == 0)//rotating left
+        //     {
+        //         cout << "Numrotation right";
+        //         for(int i = 1; i < 4; i++)
+        //         {
+        //             if((well->grid[rows[0]][cols[0 - i]]) != 0)
+        //                 CanRotateAlt = false;
+        //         }
+        //         if(CanRotateAlt == true)
+        //         {
+        //             cout << "CanRotateAlt true";
+        //             for(int i = 0; i < 4; i++)
+        //             {
+        //                 rows[i] = rows[0];
+        //                 cols[i] = cols[0] - i;
+        //             }
+        //             numrotation++;
+        //         }
+        //     }
+        //     else if(numrotation % 2 == 1)//rotating up
+        //     {
+        //         cout << "In";
+        //         for(int i = 1; i < 4; i++)
+        //         {
+        //             if(well->grid[rows[0] - i][cols[0]] != 0)
+        //                 CanRotateAlt = false;
+        //         }
+        //         if(CanRotateAlt == true)
+        //         {
+        //             cout << "true";
+        //             int counter = 3;
+        //             for(int i = 0; i < 4; i++)
+        //             {
+        //                 rows[i] -= counter;
+        //                 cols[i] = cols[0];
+        //                 --counter;
+        //             }
+        //             numrotation++;
+        //         }
+        //         else
+        //             cout << "falsa";
+        //     }
+        // }
         ResetGrid(well);
+        cout << "Grid resetted";
         for(int i = 0; i < 4; i++)
             well->grid[rows[i]][cols[i]] = 1; 
     }
-    bool CollisionDetected(Well* well) //issue here
+    bool CollisionDetected(Well* well)
     {
         if(numrotation == 0 || numrotation % 2 == 0)//vertical
         {
@@ -199,7 +247,7 @@ public:
         }
         else if(numrotation % 2 == 1)//horizontal
         {
-            if(well->grid[rows[0] + 1][cols[0] != 0 || well->grid[rows[1] + 1][cols[1]]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[0] + 1][cols[0]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
             {
                 return true;
             }
@@ -214,8 +262,9 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
+        if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
         {
+            PrintArray(well);
             for(int i = 0; i < 20; i++)
             {
                 for(int j = 0; j < 10; j++)
@@ -231,7 +280,7 @@ public:
     }
     ~I_tetrimino()
     {
-
+        ResetGrid(well);
     }
 };
 class O_tetrimino : public tetrimino
@@ -346,7 +395,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
+        if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -638,8 +687,8 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
-        {
+        if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
+        { 
             for(int i = 0; i < 20; i++)
             {
                 for(int j = 0; j < 10; j++)
@@ -946,7 +995,7 @@ public:
         }
         else if(numrotation % 4 == 3)
         {
-            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[1] + 1][cols[1] != 0])
+            if(well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[1] + 1][cols[1]] != 0)
                 return true;
             else
                 return false;
@@ -956,7 +1005,7 @@ public:
     {
         if(numrotation % 4 == 0 || numrotation == 0 || numrotation % 4 == 3)
         {
-            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
+            if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -973,7 +1022,7 @@ public:
         }
         else if(numrotation % 4 == 1)
         {
-            if((CollisionDetected(well) == true || rows[1] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
+            if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -990,7 +1039,7 @@ public:
         }
         else if(numrotation % 4 == 2)
         {
-            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
+            if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -1178,7 +1227,7 @@ public:
     {
         if(numrotation % 2 == 0 || numrotation == 0)
         {   
-            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0)
+            if(well->grid[rows[2] + 1][cols[2]] != 0 || well->grid[rows[3] + 1][cols[3]] != 0 || well->grid[rows[0] + 1][cols[0]] != 0) 
                 return true;
             else
                 return false;
@@ -1193,7 +1242,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[1] > 0 || CanDrop(well) == false)
+        if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -1399,7 +1448,7 @@ public:
     }
     void Store(Well* well)
     {
-        if((CollisionDetected(well) == true || rows[3] > 18) && stored == false && rows[0] > 0 || CanDrop(well) == false)
+        if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
         {
             for(int i = 0; i < 20; i++)
             {
@@ -1703,7 +1752,7 @@ public:
         
         if(numrotation % 4 == 0 || numrotation == 0)
         {
-            if((CollisionDetected(well) == true || rows[3] > 18) && stored == false || CanDrop(well) == false)
+            if((CollisionDetected(well) == true || CanDrop(well) == false) && stored == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
@@ -1720,7 +1769,7 @@ public:
         }
         else if(numrotation % 4 == 1 || numrotation % 4 == 3 || numrotation % 4 == 2)
         {
-            if((CollisionDetected(well) == true || rows[2] > 18) && stored == false || CanDrop(well) == false)
+            if((CollisionDetected(well) == true || rows[2] > 18 || CanDrop(well) == false) && stored == false)
             {
                 for(int i = 0; i < 20; i++)
                 {
